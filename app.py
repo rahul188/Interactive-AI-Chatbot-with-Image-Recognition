@@ -1,3 +1,8 @@
+"""
+This is a brief description of your script.
+Add more details if necessary.
+"""
+
 import json
 from flask import Flask, render_template, request, jsonify
 from langchain_google_genai import ChatGoogleGenerativeAI
@@ -14,26 +19,36 @@ llm = ChatGoogleGenerativeAI(model="gemini-pro-vision")
 
 # Function to get or set the cached response
 def get_or_set_cached_response(cache_key, callback):
+    """
+    Get or set the cached response.
+    """
     cached_response = redis_client.get(cache_key)
-    
+
     if cached_response:
         # If the response is in the cache, return it
         return json.loads(cached_response)
-    else:
-        # If the response is not in the cache, calculate it using the provided callback
-        response = callback()
-        redis_client.set(cache_key, json.dumps(response))
-        return response
+    
+    # If the response is not in the cache, calculate it using the provided callback
+    response = callback()
+    redis_client.set(cache_key, json.dumps(response))
+    return response
 
 @app.route('/', methods=['GET', 'POST'])
 def home():
+    """
+    Home route for the Flask app.
+    """
     if request.method == 'POST':
         image_url = request.form['image_url']
         return render_template('index.html', image_url=image_url)
+    
     return render_template('index.html', image_url=None)
 
 @app.route('/ask_question', methods=['GET'])
 def ask_question():
+    """
+    Route for asking a question.
+    """
     # Get user question from the query parameters
     user_question = request.args.get('question', '')
     latest_image_url = request.args.get('image_url', '')
