@@ -1,8 +1,8 @@
 from flask import Flask, render_template, request, jsonify
+import json
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.messages import HumanMessage
 import redis
-import json
 
 app = Flask(__name__)
 
