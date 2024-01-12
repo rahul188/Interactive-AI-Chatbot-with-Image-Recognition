@@ -1,5 +1,5 @@
-from flask import Flask, render_template, request, jsonify
 import json
+from flask import Flask, render_template, request, jsonify
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.messages import HumanMessage
 import redis
@@ -39,7 +39,7 @@ def ask_question():
     latest_image_url = request.args.get('image_url', '')
 
     # Define a cache key based on user question and image URL
-    cache_key = f"{user_question}:{latest_image_url}"
+    cache_key = "{}:{}".format(user_question, latest_image_url)
 
     # Define a callback function to calculate the response
     def calculate_response():
